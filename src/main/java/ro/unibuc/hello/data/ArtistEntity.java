@@ -43,4 +43,20 @@ public class ArtistEntity {
     public void setcountry(String country) {
         this.country = country;
     }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public String getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(String albums) {
+        this.albums = albums;
+    }
 }

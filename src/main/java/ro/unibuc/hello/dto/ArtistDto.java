@@ -3,7 +3,6 @@ package ro.unibuc.hello.dto;
 import java.util.function.IntFunction;
 
 public class ArtistDto {
-    private int id;
     private String name;
     private String country;
     private String genres;
@@ -13,19 +12,11 @@ public class ArtistDto {
     public ArtistDto() {
     }
 
-    public ArtistDto(int id, String name, String country, String genres, String albums) {
-        this.id = id;
+    public ArtistDto(String name, String country, String genres, String albums) {
         this.name = name;
         this.country = country;
         this.genres = genres;
         this.albums = albums;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    public int getId() {
-        return id;
     }
 
     public void setName(String content) {

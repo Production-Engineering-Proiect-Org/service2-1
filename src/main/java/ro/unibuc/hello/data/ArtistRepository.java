@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface ArtistRepository extends MongoRepository<ArtistEntity, String> {
     ArtistEntity findByName(String name);
     List<ArtistEntity> findByCountry(String country);
+    ArtistEntity findFirstByOrderByNameAsc();
 }

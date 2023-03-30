@@ -52,6 +52,7 @@ test {
 	useJUnitPlatform {
 		excludeTags ("IT", "E2E")
 	}
+	useJUnitPlatform()
 }
 
 task testIT(type: Test) {
