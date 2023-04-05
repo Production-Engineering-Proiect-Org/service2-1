@@ -2,15 +2,18 @@ package ro.unibuc.hello.dto;
 
 import static org.junit.Assert.assertEquals;
 
+import ro.unibuc.hello.data.ArtistEntity;
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ArtistDtoTest {
-    private ArtistDto artist;
+public class ArtistEntityTest {
+    private ArtistEntity artist;
 
     @Before
     public void setUp() {
-        artist = new ArtistDto("Ion", "Germania", "Rap", "When we do good things");
+        artist = new ArtistEntity("Ion", "Germania", "Rap", "When we do good things");
+        artist.setId(new ObjectId("61604fba42f7e918f496e76e"));
     }
 
     @Test
@@ -26,13 +29,13 @@ public class ArtistDtoTest {
 
     @Test
     public void testGetCountry() {
-        assertEquals("Germania", artist.getCountry());
+        assertEquals("Germania", artist.getcountry());
     }
 
     @Test
     public void testSetCountry() {
-        artist.setCountry("Romania");
-        assertEquals("Romania", artist.getCountry());
+        artist.setcountry("Romania");
+        assertEquals("Romania", artist.getcountry());
     }
 
     @Test

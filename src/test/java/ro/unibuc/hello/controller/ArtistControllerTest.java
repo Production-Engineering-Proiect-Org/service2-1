@@ -13,26 +13,23 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ro.unibuc.hello.data.ArtistEntity;
 import ro.unibuc.hello.dto.ArtistDto;
-import ro.unibuc.hello.dto.Greeting;
-import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.ArtistService;
-import ro.unibuc.hello.service.HelloWorldService;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
- class ArtistControllerTest    
- {
+ class ArtistControllerTest{
 
     @Mock
     private ArtistService artistService;
@@ -51,54 +48,87 @@ import java.util.List;
     }
 
     @Test
-    void test_ArtistDto() throws Exception {
+    public void test_getAllArtists_returnsListOfArtists() throws Exception {
         // Arrange
-        ArtistDto artist = new ArtistDto("Ion","Germania","Rap","When we do good things");
-        
-        when(artistService.getArtistName()).thenReturn(artist.getName());
+        List<ArtistDto> artists = new ArrayList<>();
+        artists.add(new ArtistDto("John", "USA", "Pop", "Album1"));
+        artists.add(new ArtistDto("Jane", "UK", "Rock", "Album2"));
+        when(artistService.getAllArtists()).thenReturn(artists);
 
         // Act
-        MvcResult result = mockMvc.perform(get("/artist?name=there")
+        MvcResult result = mockMvc.perform(get("/artist"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // Assert
+        String expected = objectMapper.writeValueAsString(artists);
+        String actual = result.getResponse().getContentAsString();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_createArtist_returnsCreatedArtist() throws Exception {
+        // Arrange
+        ArtistDto artist = new ArtistDto("John", "USA", "Pop", "Album1");
+        when(artistService.createArtist(any(ArtistDto.class))).thenReturn(artist);
+
+        // Act
+        MvcResult result = mockMvc.perform(post("/artist")
+                .content(objectMapper.writeValueAsString(artist))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        // Assert
+        String expected = objectMapper.writeValueAsString(artist);
+        String actual = result.getResponse().getContentAsString();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_updateArtist_returnsUpdatedArtist() throws Exception {
+        // Arrange
+        ArtistDto artist = new ArtistDto("John", "USA", "Pop", "Album1");
+        when(artistService.updateArtist(eq("1"), any(ArtistDto.class))).thenReturn(artist);
+
+        // Act
+        MvcResult result = mockMvc.perform(put("/artist/1")
                 .content(objectMapper.writeValueAsString(artist))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
         // Assert
-        Assertions.assertEquals(result.getResponse().getContentAsString(), objectMapper.writeValueAsString(artist));
+        String expected = objectMapper.writeValueAsString(artist);
+        String actual = result.getResponse().getContentAsString();
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    void test_ArtistEntity() throws Exception {
+    public void test_deleteArtist_returnsOkWhenDeleted() throws Exception {
         // Arrange
-        ArtistDto artistDto = new ArtistDto("Ion","Germania","Rap","When we do good things");
-
-        when(artistService.buildAristDtoFromArtist(any())).thenReturn(artistDto);
+        when(artistService.deleteArtist(eq("1"))).thenReturn(true);
 
         // Act
-        MvcResult result = mockMvc.perform(get("/artist?title=Ion")
-                .content(objectMapper.writeValueAsString(artistDto))
-                .contentType(MediaType.APPLICATION_JSON))
+        MvcResult result = mockMvc.perform(delete("/artist/1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         // Assert
-        Assertions.assertEquals(result.getResponse().getContentAsString(), objectMapper.writeValueAsString(artistDto));
+        Assertions.assertEquals("", result.getResponse().getContentAsString());
     }
 
     @Test
-    void test_info_cascadesException() {
+    public void test_deleteArtist_returnsNotFoundWhenNotDeleted() throws Exception {
         // Arrange
-        String name = "Ion";
-        when(artistService.buildAristDtoFromArtist(any())).thenThrow(new EntityNotFoundException(name));
+        when(artistService.deleteArtist(eq("1"))).thenReturn(false);
 
         // Act
-        EntityNotFoundException exception = assertThrows(
-                EntityNotFoundException.class,
-                () -> artistController.toString(),
-                "Expected info() to throw EntityNotFoundException, but it didn't");
+        MvcResult result = mockMvc.perform(delete("/artist/1"))
+                .andExpect(status().isNotFound())
+                .andReturn();
 
         // Assert
-        assertTrue(exception.getMessage().contains(name));
+        Assertions.assertEquals("", result.getResponse().getContentAsString());
     }
 }

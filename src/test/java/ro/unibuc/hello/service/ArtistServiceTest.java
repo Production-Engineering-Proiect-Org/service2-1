@@ -9,7 +9,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.unibuc.hello.data.ArtistEntity;
 import ro.unibuc.hello.data.ArtistRepository;
 import ro.unibuc.hello.dto.ArtistDto;
-import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import static org.mockito.Mockito.when;
@@ -42,34 +41,43 @@ public class ArtistServiceTest {
     }
 
     @Test
-    void test_artist_returnsArist_whenNameNull(){
-        ArtistDto artist = artistService.newArtistDto(null, null, null, null);
-
+    void test_newArtistDto_returnsArtistDto() {
+        // Arrange
+        String name = null;
+        String country = null;
+        String genres = null;
+        String albums = null;
+        
+        // Act
+        ArtistDto artistDto = artistService.newArtistDto(name, country, genres, albums);
+        
         // Assert
-        Assertions.assertEquals("null", artist.getName());
-        Assertions.assertEquals("null", artist.getCountry());
-        Assertions.assertEquals("null", artist.getGenres());
-        Assertions.assertEquals("null", artist.getAlbums());
+        Assertions.assertNotNull(artistDto);
+        Assertions.assertEquals("null!", artistDto.getName());
+        Assertions.assertEquals("null!", artistDto.getCountry());
+        Assertions.assertEquals("null!", artistDto.getGenres());
+        Assertions.assertEquals("null!", artistDto.getAlbums());
     }
 
     @Test
-    void test_buildAritstDtoFromArtistEntity_returnsArtistDtoWithArtistEntity() {
+    void test_buildAristDtoFromArtist_returnsArtistDto() {
         // Arrange
         String name = "John Smith";
         ArtistEntity artistEntity = new ArtistEntity(name, "someCountry", "someGenres", "someAlbums");
-
+        
         when(mockArtistRepository.findByName(name)).thenReturn(artistEntity);
-
+        
         // Act
-        ArtistDto artist = artistService.buildAristDtoFromArtist(name);
-
+        ArtistDto artistDto = artistService.buildAristDtoFromArtist(name);
+        
         // Assert
-        Assertions.assertEquals(name, artist.getName());
-        Assertions.assertEquals("someName : someCountry!", artist.getCountry());
-        Assertions.assertEquals("someCountry : someGenres!", artist.getGenres());
-        Assertions.assertEquals("someGenres : someAlbums!", artist.getAlbums());
+        Assertions.assertNotNull(artistDto);
+        Assertions.assertEquals(String.format("Name: %s!", name), artistDto.getName());
+        Assertions.assertEquals("someCountry", artistDto.getCountry());
+        Assertions.assertEquals("someGenres", artistDto.getGenres());
+        Assertions.assertEquals("someAlbums", artistDto.getAlbums());
     }
-
+    
     @Test
     void test_buildAritstDtoFromArtistEntity_throwsEntityNotFoundException_whenInformationNull() {
         // Arrange

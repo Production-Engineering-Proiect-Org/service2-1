@@ -1,7 +1,5 @@
 package ro.unibuc.hello.dto;
 
-import java.util.function.IntFunction;
-
 public class ArtistDto {
     private String name;
     private String country;
