@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.4" jmeter="5.4.1 r1855137">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1649338894000</longProp>
+        <longProp name="ThreadGroup.end_time">1649338894000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/artists</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></string
+        </HTTPSamplerProxy>
+        <hashTree/>
+    </hashTree>
+</hashTree>
+<CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+  <stringProp name="filename"></stringProp>
+  <stringProp name="fileEncoding"></stringProp>
+  <stringProp name="variableNames">name,country,genres,albums</stringProp>
+  <stringProp name="delimiter">,</stringProp>
+  <boolProp name="quotedData">false</boolProp>
+  <boolProp name="recycle">true</boolProp>
+  <stringProp name="stopThread">false</stringProp>
+  <stringProp name="shareMode">shareMode.all</stringProp>
+  <stringProp name="comments"></stringProp>
+  <stringProp name="ignoreFirstLine">false</stringProp>
+  <stringProp name="loopController.loops">1</stringProp>
+  <stringProp name="filename">${__P(filePath)}</stringProp>
+</CSVDataSet>
+<hashTree>
+  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Artist" enabled="true">
+    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+      <collectionProp name="Arguments.arguments">
+        <elementProp name="name" elementType="HTTPArgument">
+          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+          <stringProp name="Argument.value">${name}</stringProp>
+          <stringProp name="Argument.metadata">=</stringProp>
+          <boolProp name="HTTPArgument.use_equals">true</boolProp>
+          <stringProp name="Argument.name">name</stringProp>
+        </elementProp>
+        <elementProp name="country" elementType="HTTPArgument">
+          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+          <stringProp name="Argument.value">${country}</stringProp>
+          <stringProp name="Argument.metadata">=</stringProp>
+          <boolProp name="HTTPArgument.use_equals">true</boolProp>
+          <stringProp name="Argument.name">country</stringProp>
+        </elementProp>
+        <elementProp name="genres" elementType="HTTPArgument">
+          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+          <stringProp name="Argument.value">${genres}</stringProp>
+          <stringProp name="Argument.metadata">=</stringProp>
+          <boolProp name="HTTPArgument.use_equals">true</boolProp>
+          <stringProp name="Argument.name">genres</stringProp>
+        </elementProp>
+        <elementProp name="albums" elementType="HTTPArgument">
+          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+          <stringProp name="Argument.value">${albums}</stringProp>
+          <stringProp name="Argument.metadata">=</stringProp>
+          <boolProp name="HTTPArgument.use_equals">true</boolProp>
+          <stringProp name="Argument.name">albums</stringProp>
+        </elementProp>
+      </collectionProp>
+    </elementProp>
+    <stringProp name="HTTPSampler.domain">${__P(domain)}</stringProp>
+    <stringProp name="HTTPSampler.port">${__P(port)}</stringProp>
+    <stringProp name="HTTPSampler.protocol">${__P(protocol)}</stringProp>
+    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+    <stringProp name="HTTPSampler.path">/artists</stringProp>
+    <stringProp name="HTTP
