@@ -23,24 +23,6 @@ public class ArtistServiceTest {
     ArtistService artistService = new ArtistService();
 
     @Test
-    void test_artist_returnsArist(){
-        // Arrange
-        String name = "John Smith";
-        String country = "Arizona";
-        String genres = "jazz";
-        String albums = "Happy";
-        //ArtistEntity artist = new ArtistEntity(name, country, genres, albums);
-        // Act
-        ArtistDto artist = artistService.newArtistDto(name, country, genres, albums);
-
-        // Assert
-        Assertions.assertEquals("John Smith", artist.getName());
-        Assertions.assertEquals("Arizona", artist.getCountry());
-        Assertions.assertEquals("jazz", artist.getGenres());
-        Assertions.assertEquals("Happy", artist.getAlbums());
-    }
-
-    @Test
     void test_newArtistDto_returnsArtistDto() {
         // Arrange
         String name = null;

@@ -46,7 +46,7 @@ import java.util.List;
         mockMvc = MockMvcBuilders.standaloneSetup(artistController).build();
         objectMapper = new ObjectMapper();
     }
-
+    
     @Test
     public void test_getAllArtists_returnsListOfArtists() throws Exception {
         // Arrange

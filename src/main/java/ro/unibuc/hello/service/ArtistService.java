@@ -37,6 +37,12 @@ public class ArtistService {
         return artistRepository.save(artist);
     }
 
+    public ArtistEntity createArtistEntity(ArtistDto artistDto) {
+        ArtistEntity artistEntity = mapToArtistEntity(artistDto);
+        artistEntity = artistRepository.save(artistEntity);
+        return artistEntity;
+    }
+
     public String getArtistName(){
         List<ArtistEntity> listArtist = artistRepository.findAll();
         String artistName = "";

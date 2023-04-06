@@ -27,6 +27,12 @@ public class ArtistController {
         return new ResponseEntity<>(createdArtist, HttpStatus.CREATED);
     }
 
+    @PostMapping("/artists")
+    public ResponseEntity<ArtistDto> createArtistEntity(@RequestBody ArtistDto artistDto) {
+        ArtistDto createdArtist = artistService.createArtist(artistDto);
+        return new ResponseEntity<>(createdArtist, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<ArtistDto>> getAllArtists() {
         List<ArtistDto> artists = artistService.getAllArtists();
